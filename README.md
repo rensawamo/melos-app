@@ -109,9 +109,9 @@ View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux
 ✓ Running on http://:::8080
 ```
 
-### frontend start 
+### app start 
 ```sh
-$ make front-start 
+$ make app-start-chrome
 ...
 A Dart VM Service on Chrome is available at: http://127.0.0.1:53308/vuiIiX9KTZs=
 ```
@@ -120,3 +120,8 @@ A Dart VM Service on Chrome is available at: http://127.0.0.1:53308/vuiIiX9KTZs=
 ```sh
 $ dart create -t package FOLDERNAME
 ```
+
+
+### reference 
+
+[https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa3liTklwNWJWRDhnUXZHek54OVM0ZDhEQy1zZ3xBQ3Jtc0tuS3ZiR3QxUXNtRUhMMl9PdHdBRFNzRGpFSHhKQmJJSzEzZTRoaG1oNmdZbzdoU0FZYzlNdEwzUmY4WVZQV0tQdUFDdWFvUjZhTlFrMHk1d0tISVBLUUZGV3Q5OXRYTHhYTUJZdEhpRTlSM0ZPbjg5aw&q=https%3A%2F%2Fgithub.com%2Fiampawan%2FFullStackTaskApp&v=_LhSRbekY5k](https://github.com/iampawan/FullStackTaskApp)
