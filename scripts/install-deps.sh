@@ -6,3 +6,4 @@ brew update
 brew install mise 
 brew install mason
 dart pub global activate melos
+dart pub add dart_frog
