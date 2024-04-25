@@ -64,7 +64,7 @@ root
 ```
 
 ### bootstrap 
-setup the project 
+set up project  server
 
 ```sh
 $ make bs
@@ -91,6 +91,8 @@ Starting Dart Frog server on Docker
 ```
 
 ### app start 
+set up project frontend
+
 ```sh
 $ make app-start-chrome
 ...
