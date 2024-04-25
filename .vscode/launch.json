@@ -1,0 +1,40 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "dev",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "app/lib/main_development.dart",
+            "args": [
+                "-d",
+                "chrome",
+                "--web-browser-flag",
+                "--disable-web-security",
+                "--dart-define-from-file=dart_defines/dev.json",
+                
+            ]
+        },
+        {
+            "name": "stg",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "app/lib/main_staging.dart",
+            "args": [
+                "--dart-define-from-file=dart_defines/stg.json",
+            ]
+        },
+        {
+            "name": "prd",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "app/lib/main_production.dart",
+            "args": [
+                "--dart-define-from-file=dart_defines/prod.json",
+            ]
+        }
+    ]
+}

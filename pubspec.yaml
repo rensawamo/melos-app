@@ -1,0 +1,10 @@
+name: task_app
+#fvm 管理
+sdkPath: .fvm/flutter_sdk
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+dev_dependencies:
+  melos: ^4.1.0
+# dart_frog create backend
+
+
