@@ -3,12 +3,7 @@ import 'package:repository/repository.dart';
 
 /// A class that implements [TaskRepo] using an in-memory list.
 class InMemoryTaskRepo implements TaskRepo {
-  List<Task> _data = [
-    Task(
-      id: '1',
-      title: 'example',
-    ),
-  ];
+  List<Task> _data = [];
 
   /// Returns the list of tasks.
   List<Task> get tasks => _data;
