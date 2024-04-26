@@ -1,6 +1,67 @@
 #  Melos Dart App
 
+
+[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
+
+[![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
+
+[![Powered by Dart Frog](https://img.shields.io/endpoint?url=https://tinyurl.com/dartfrog-badge)](https://dartfrog.vgv.dev)
+
+
+Dart Frog is an excellent tool for building a backend with Dart. I’ve already covered the basics in [this](https://tomicriedel.medium.com/cff6fc9f033b) article, so if you want to follow along, I recommend you read this one first.
+
+What is [Melos](https://melos.invertase.dev/)?
+It is a CLI tool to support management of Dart projects with multiple packages (also called monorepo).
+
+Splitting a large project into version-controlled packages is very effective for code sharing.
+
+It provides a simple and efficient way to manage multiple packages and libraries in a single code base. Melos is designed to help manage these challenges by providing a streamlined workflow for building, testing, and managing dependencies across all projects in a mono repository.
+
+Melos also provides a plugin system (for Intellij and [VS Code](https://melos.invertase.dev/ide-support#vs-code) )
+
+
+### Why Use??
+
+
+☑️ Consistent development environment
+
+
+☑️ Linking and installation of local packages
+
+
+☑️ Simultaneous command execution on multiple packages
+
+
+☑️ Multiple developers can work on the same code base at the same time
+
+
+### Demerit
+
+☑️ Flexibility Limitations
+
+☑️ Increased complexity
+
+### Melos Command
+
+All package dependencies are installed (internally pub get is used)
+All packages are linked locally.
+
+```sh
+$ melos bootstrap
+# or 
+$ melos bs
+```
+
+Clean up temporary project files.
+Can be run before bootstrap, for example, to start completely fresh.
+```sh
+$ melos clean
+```
+
+
+
 ### project app
+
 ex) Chrome. 
 You can build android ios emulater!
 
@@ -20,13 +81,7 @@ Use the Dart backend too!
 
 ###  environment 
 macOS 
-homebrew
-
-[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
-
-[![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
-
-[![Powered by Dart Frog](https://img.shields.io/endpoint?url=https://tinyurl.com/dartfrog-badge)](https://dartfrog.vgv.dev)
+Home Brew
 
 
 ### project directry tree
