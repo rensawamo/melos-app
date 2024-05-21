@@ -26,6 +26,8 @@ jobs:
       - name: Install Homebrew
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo export PATH='/usr/local/bin:$PATH' >> ~/.bash_profile
+          source ~/.bash_profile
       
       - name: Install dependencies
         run: |
