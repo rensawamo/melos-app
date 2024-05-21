@@ -38,12 +38,15 @@ jobs:
       - name: set up fvm
         run: |
           fvm install 
+      - name: melos
+        uses: bluefireteam/melos-action@v3
 
       - name: Bootstrap
         run: make bs
       
       - name: Install dependencies
-        run: melos pub_get_all
+         
+        run: fvm dart pub global activate melos &&  melos pub_get_all
       
       - name: Setup Gradle
         run: |
