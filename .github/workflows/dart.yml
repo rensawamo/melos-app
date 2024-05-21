@@ -37,12 +37,9 @@ jobs:
           echo 'export PATH="$PATH:$HOME/.local/bin"' >> $GITHUB_ENV
           source $GITHUB_ENV
 
-      - name: Install Flutter version using FVM
+      - name: set up fvm
         run: |
-          source $GITHUB_ENV
-          fvm install 2.2.3
-          fvm global 2.2.3
-          fvm flutter doctor
+          fvm install 
 
       - name: Bootstrap
         run: make bs
