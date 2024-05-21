@@ -38,14 +38,10 @@ jobs:
       - name: set up fvm
         run: |
           fvm install 
-
-      - name: Install Dart SDK using FVM
-        run: |
-          source $GITHUB_ENV
-          fvm install stable
-          fvm use stable
           fvm global stable
+          fvm flutter --version
           fvm dart --version
+
 
       - name: Set up Melos
         uses: bluefireteam/melos-action@v3
