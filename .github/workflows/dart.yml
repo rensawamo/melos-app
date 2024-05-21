@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    name: Build for iOS
+    name: Build for Android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,21 +28,22 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
-      
+
       - name: Install FVM
         run: |
-          curl -sL https://github.com/leoafarias/fvm/releases/latest/download/fvm_linux_amd64.tar.gz -o fvm.tar.gz
-          tar -xzvf fvm.tar.gz -C ~/.local/bin
-          echo 'PATH=$PATH:$HOME/.local/bin' >> $GITHUB_ENV
+          curl -sL https://github.com/leoafarias/fvm/releases/download/2.2.3/fvm-2.2.3-linux-x64.tar.gz -o fvm.tar.gz
+          mkdir -p ~/.local/bin
+          tar -xzf fvm.tar.gz -C ~/.local/bin
+          echo 'export PATH="$PATH:$HOME/.local/bin"' >> $GITHUB_ENV
           source $GITHUB_ENV
-      
+
       - name: Install Flutter version using FVM
         run: |
           source $GITHUB_ENV
-          fvm install
-          fvm flutter pub global activate fvm
+          fvm install 2.2.3
+          fvm global 2.2.3
           fvm flutter doctor
-      
+
       - name: Bootstrap
         run: make bs
       
