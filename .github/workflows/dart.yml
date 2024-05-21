@@ -7,36 +7,55 @@ name: Dart
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
   build:
+    name: Build for iOS
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
-
+      - uses: actions/checkout@v2
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      
       - name: Install dependencies
-        run: dart pub get
-
-      # Uncomment this step to verify the use of 'dart format' on each commit.
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
-
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: dart analyze
-
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+      
+      - name: Install FVM
+        run: |
+          curl -sL https://github.com/leoafarias/fvm/releases/latest/download/fvm.tar.gz | tar -xz -C ~/.local/bin
+          echo 'PATH=$PATH:$HOME/.local/bin' >> $GITHUB_ENV
+          source $GITHUB_ENV
+      
+      - name: Install Flutter version using FVM
+        run: |
+          source $GITHUB_ENV
+          fvm install
+          fvm flutter pub global activate fvm
+          fvm flutter doctor
+      
+      - name: Bootstrap
+        run: make bs
+      
+      - name: Install dependencies
+        run: melos pub_get_all
+      
+      - name: Setup Gradle
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release.jks
+          
+      
+      - name: Build APK
+        env:
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+        run: fvm flutter build apk --release
