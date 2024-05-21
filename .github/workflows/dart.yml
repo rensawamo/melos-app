@@ -40,13 +40,7 @@ jobs:
       - name: set up fvm
         run: |
           fvm install 
-          echo y
 
-      - name: Set up Melos
-        uses: bluefireteam/melos-action@v3
-        
-      - name: melos
-        uses: bluefireteam/melos-action@v3
 
       - name: Bootstrap
         run: make bs
