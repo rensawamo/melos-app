@@ -36,13 +36,13 @@ command:
 scripts:
  
   pub_get_all:
-    run: flutter pub get
+    run: fvm flutter pub get
     description: Install all dependencies
 
   upgrade:
     run: |
       melos exec -- \
-        "flutter pub upgrade --major-versions && flutter pub upgrade"
+        " fvm flutter pub upgrade --major-versions && flutter pub upgrade"
     description: Run upgrade the major version of the pub.
     packageFilters:
       flutter: true
