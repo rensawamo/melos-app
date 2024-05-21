@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
+      - uses: bluefireteam/melos-action@v3
       
       - name: Set up JDK
         uses: actions/setup-java@v2
@@ -38,14 +40,11 @@ jobs:
       - name: set up fvm
         run: |
           fvm install 
-          fvm global stable
-          yes | fvm flutter doctor
+          echo y
 
       - name: Set up Melos
         uses: bluefireteam/melos-action@v3
-
         
-
       - name: melos
         uses: bluefireteam/melos-action@v3
 
