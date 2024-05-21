@@ -268,3 +268,12 @@ iOSInjectionProject/
 **/.env.development
 **/.env.staging
 **/.env.production
+
+
+# actions
+**/ios/Runner/GoogleService-Info.plist
+**/android/app/google-services.json
+**.jks
+**.pem
+**/.fvm/flutter_sdk
+**/lib/firebase_options.dart
