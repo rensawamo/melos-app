@@ -23,6 +23,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       
       - name: Install dependencies
         run: |
