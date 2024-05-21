@@ -40,10 +40,16 @@ jobs:
         run: |
           fvm install
       
+      - name: set up flutter 
+        run: |
+          echo 'export PATH="$HOME/.fvm/default/bin:$PATH"' >> $GITHUB_ENV
+          source $GITHUB_ENV
+          fvm flutter --version
+      
       - name: set up dart
         run: |
           fvm dart --version
-          
+
       - name: Set up Melos 
         run: |
           fvm dart pub global activate melos
@@ -51,12 +57,9 @@ jobs:
       - name: Bootstrap
         run: make bs
       
-      - name: Install dependencies
-        run: fvm dart pub global activate melos &&  melos pub_get_all
-      
       - name: Setup Gradle
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/android/app/release.jks
       
       - name: Build APK
         env:
