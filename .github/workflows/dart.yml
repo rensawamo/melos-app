@@ -31,7 +31,8 @@ jobs:
       
       - name: Install FVM
         run: |
-          curl -sL https://github.com/leoafarias/fvm/releases/latest/download/fvm.tar.gz | tar -xz -C ~/.local/bin
+          curl -sL https://github.com/leoafarias/fvm/releases/latest/download/fvm_linux_amd64.tar.gz -o fvm.tar.gz
+          tar -xzvf fvm.tar.gz -C ~/.local/bin
           echo 'PATH=$PATH:$HOME/.local/bin' >> $GITHUB_ENV
           source $GITHUB_ENV
       
