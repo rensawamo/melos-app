@@ -29,13 +29,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
 
-      - name: Install FVM
+      - name: install fvm
         run: |
-          curl -sL https://github.com/leoafarias/fvm/releases/download/2.2.3/fvm-2.2.3-linux-x64.tar.gz -o fvm.tar.gz
-          mkdir -p ~/.local/bin
-          tar -xzf fvm.tar.gz -C ~/.local/bin
-          echo 'export PATH="$PATH:$HOME/.local/bin"' >> $GITHUB_ENV
-          source $GITHUB_ENV
+            brew tap leoafarias/fvm
+            brew install fvm
 
       - name: set up fvm
         run: |
