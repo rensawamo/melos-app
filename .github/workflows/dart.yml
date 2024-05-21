@@ -23,13 +23,13 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
+
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
         with:
           test-bot: false
   
-
       - name: install fvm
         run: |
             brew tap leoafarias/fvm
@@ -38,20 +38,27 @@ jobs:
       - name: set up fvm
         run: |
           fvm install 
-      - name: melos
+
+      - name: Install Dart SDK using FVM
+        run: |
+          source $GITHUB_ENV
+          fvm install stable
+          fvm use stable
+          fvm global stable
+          fvm dart --version
+
+      - name: Set up Melos
         uses: bluefireteam/melos-action@v3
 
       - name: Bootstrap
         run: make bs
       
       - name: Install dependencies
-         
         run: fvm dart pub global activate melos &&  melos pub_get_all
       
       - name: Setup Gradle
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release.jks
-          
       
       - name: Build APK
         env:
