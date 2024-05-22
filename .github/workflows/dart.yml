@@ -15,14 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
+
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.FIREBASE_CREDENTIALS }}'
       
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '11'
-
-      
+          java-version: '17'
 
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -55,6 +57,33 @@ jobs:
 
       - name: Bootstrap
         run: make bs
+
+      - name: flutter clean
+        run: fvm flutter clean
+      
+      
+      - name: flutter pub get
+        run: fvm flutter pub get
+
+      
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3.0
+      
+      - name: setup google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" >> app/android/app/google-services.json
+      
+      - name: Decode firebase_option
+        run : echo "${{ secrets.FIREBASE_OPTION_BASE64 }}" | base64 -d > app/lib/firebase_options.dart
+
+      - name: Set execute project id
+        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: firebase test lab apk build 
+        run: make build_apk
+
+      # - name: instrumentation tests
+      #   run: make instrumentation-test
       
       - name: Setup Gradle
         run: |
@@ -65,4 +94,19 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-        run: cd app &&  fvm flutter build apk --release
+        run: cd app &&  fvm flutter build apk --release --dart-define=FLAVOR=dev 
+      
+      
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_DISTRIBUTION_CONTENT }}
+          groups: testers
+          file: app/build/app/outputs/apk/release/app-release.apk
+
+    
+
+      
+      
+      
