@@ -1,0 +1,58 @@
+name: integrationTest
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  integrationTest:
+    name: integration Test
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "17.x"
+          cache: gradle
+      - name: install fvm
+        run: |
+          brew tap leoafarias/fvm
+          brew install fvm
+  
+      - name: set up fvm
+        run: |
+          fvm install
+     
+      - name:  Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      
+      - name: move to project directory
+        run: cd patroltest
+        
+      - name: Flutter tests
+        run: fvm flutter test
+        
+      - name: Generate apk for testlab
+        run: |
+            pushd android
+            fvm flutter build apk
+            ./gradlew app:assembleAndroidTest
+            ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
+            popd      - uses: google-github-actions/setup-gcloud@v2.1.0
+      
+      - name: Download gcloud config json file
+        id: gcloud_config
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+            encodedString: ${{  secrets.FIREBASE_CREDENTIALS_JSON_BASE64  }}      
+      
+      - name: Set execute project id
+        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: instrumentation tests
+        run: gcloud firebase test android run --type instrumentation   --app build/app/outputs/apk/debug/app-debug.apk   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
+
+        

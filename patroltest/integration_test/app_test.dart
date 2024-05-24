@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized(); // NEW
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized(); 
 
   testWidgets('tap on the floating action button, verify counter',
       (tester) async {

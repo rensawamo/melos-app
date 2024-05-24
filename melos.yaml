@@ -3,6 +3,7 @@ name: melos_app
 packages:
   - "packages/core/**"
   - "packages/feature/**"
+  - patroltest
   - app
   - backend
 

@@ -21,6 +21,7 @@ dependencies:
     path: ../packages/core/model
   repository: 
     path: ../packages/core/repository
+  firebase_core: ^2.31.1
   
 
 dev_dependencies:

@@ -4,7 +4,7 @@ name: Dart
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "currentnone" ]
 
 jobs:
   build:
@@ -53,7 +53,7 @@ jobs:
         run: |
           fvm dart pub global activate melos
 
-      - name: Bootstrap
+      - name: Bootstrapf
         run: make bs
 
       - name: flutter clean
