@@ -60,7 +60,7 @@ jobs:
       - name: Generate apk for testlab
         run: |
             cd patroltest && pushd android
-            fvm flutter build apk
+            fvm flutter build apk --debug
             ./gradlew app:assembleAndroidTest
             ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
             popd     
