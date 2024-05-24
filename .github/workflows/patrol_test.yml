@@ -53,7 +53,7 @@ jobs:
       
       - name: Set execute project id
         run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
-        
+      
       - name: Flutter tests
         run: cd patroltest && fvm flutter test
         
