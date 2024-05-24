@@ -35,11 +35,11 @@ jobs:
           channel: 'stable'
           cache: true
       
-      - name: move to project directory
+      - name: Setup project directory
         run: cd patroltest
         
       - name: Flutter tests
-        run: fvm flutter test
+        run: pwd && fvm flutter test
         
       - name: Generate apk for testlab
         run: |
