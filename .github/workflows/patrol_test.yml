@@ -34,8 +34,19 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: setup google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" >> patroltest/android/app/google-services.json
+      - name: Setup Gradle
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > patroltest/android/app/release.jks
+      - name: Decode firebase_option
+
+        run : echo "${{ secrets.FIREBASE_OPTION_BASE64 }}" | base64 -d > patroltest/lib/firebase_options.dart
       
-    
+      - name: Set execute project id
+        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
         
       - name: Flutter tests
         run: cd patroltest && fvm flutter test
@@ -46,7 +57,7 @@ jobs:
             fvm flutter build apk
             ./gradlew app:assembleAndroidTest
             ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
-            popd      - uses: google-github-actions/setup-gcloud@v2.1.0
+            popd    
       
       - name: Download gcloud config json file
         id: gcloud_config
