@@ -1,7 +1,7 @@
 name: integrationTest
 on:
   push:
-    branches: ["main"]
+    branches: ["ci"]
 
 jobs:
   integrationTest:
@@ -19,7 +19,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
         with:
           test-bot: false
-          
+
       - name: install fvm
         run: |
           brew tap leoafarias/fvm
