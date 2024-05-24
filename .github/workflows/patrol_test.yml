@@ -35,15 +35,14 @@ jobs:
           channel: 'stable'
           cache: true
       
-      - name: Setup project directory
-        run: cd patroltest
+    
         
       - name: Flutter tests
-        run: pwd && fvm flutter test
+        run: cd patroltest && fvm flutter test
         
       - name: Generate apk for testlab
         run: |
-            pushd android
+            cd patroltest && pushd android
             fvm flutter build apk
             ./gradlew app:assembleAndroidTest
             ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
@@ -59,6 +58,6 @@ jobs:
         run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: instrumentation tests
-        run: gcloud firebase test android run --type instrumentation   --app build/app/outputs/apk/debug/app-debug.apk   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
+        run: gcloud firebase test android run --type instrumentation   --app patroltest/build/app/outputs/apk/debug/app-debug.apk   --test patroltest/build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
 
         
