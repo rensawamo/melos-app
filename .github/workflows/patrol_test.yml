@@ -1,7 +1,7 @@
 name: integrationTest
 on:
   push:
-    branches: ["main"]
+    branches: ["ci"]
 
 jobs:
   integrationTest:
@@ -14,6 +14,12 @@ jobs:
           distribution: 'zulu'
           java-version: "17.x"
           cache: gradle
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+        with:
+          test-bot: false
+
       - name: install fvm
         run: |
           brew tap leoafarias/fvm
@@ -28,31 +34,41 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - uses: 'google-github-actions/auth@v2'
+        with:  
+          credentials_json: '${{ secrets.FIREBASE_CREDENTIALS }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: setup google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" >> patroltest/android/app/google-services.json
+      - name: Setup Gradle
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > patroltest/android/app/release.jks
+      - name: Decode firebase_option
+
+        run : echo "${{ secrets.FIREBASE_OPTION_BASE64 }}" | base64 -d > patroltest/lib/firebase_options.dart
       
-      - name: move to project directory
-        run: cd patroltest
-        
+      - name: Set execute project id
+        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+      
       - name: Flutter tests
-        run: fvm flutter test
+        run: cd patroltest && fvm flutter test
         
       - name: Generate apk for testlab
         run: |
-            pushd android
-            fvm flutter build apk
+            cd patroltest && pushd android
+            fvm flutter build apk --debug
             ./gradlew app:assembleAndroidTest
             ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
-            popd      - uses: google-github-actions/setup-gcloud@v2.1.0
-      
-      - name: Download gcloud config json file
-        id: gcloud_config
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-            encodedString: ${{  secrets.FIREBASE_CREDENTIALS_JSON_BASE64  }}      
+            popd     
       
       - name: Set execute project id
         run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: instrumentation tests
-        run: gcloud firebase test android run --type instrumentation   --app build/app/outputs/apk/debug/app-debug.apk   --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
+        run: gcloud firebase test android run --type instrumentation   --app patroltest/build/app/outputs/apk/debug/app-debug.apk   --test patroltest/build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk   --timeout 2m
 
         
