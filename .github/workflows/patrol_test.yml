@@ -35,6 +35,12 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - uses: 'google-github-actions/auth@v2'
+        with:  
+          credentials_json: '${{ secrets.FIREBASE_CREDENTIALS }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+
       - name: setup google-services.json
         run: |
           echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" >> patroltest/android/app/google-services.json
@@ -57,13 +63,7 @@ jobs:
             fvm flutter build apk
             ./gradlew app:assembleAndroidTest
             ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
-            popd    
-      
-      - name: Download gcloud config json file
-        id: gcloud_config
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-            encodedString: ${{  secrets.FIREBASE_CREDENTIALS_JSON_BASE64  }}      
+            popd     
       
       - name: Set execute project id
         run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
